@@ -11,7 +11,7 @@ data class Customer(
     @Column(nullable = false, unique = true) var email: String = "",
     @Column(nullable = false) var password: String = "",
     @Column(nullable = false, unique = true) val cpf: String,
-    @Column(nullable = false) val income: BigDecimal = BigDecimal.ZERO,
+    @Column(nullable = false) var income: BigDecimal = BigDecimal.ZERO,
     // Address() instancia uma classe vazia
     @Column(nullable = false) @Embedded var address: Address = Address(),
     @Column(nullable = false) @OneToMany(fetch = FetchType.LAZY, cascade = arrayOf(
