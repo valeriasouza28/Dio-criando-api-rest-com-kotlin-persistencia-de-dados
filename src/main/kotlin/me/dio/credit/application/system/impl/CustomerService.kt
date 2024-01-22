@@ -1,6 +1,7 @@
 package me.dio.credit.application.system.impl
 
 import me.dio.credit.application.system.entity.Customer
+import me.dio.credit.application.system.exception.BusinessException
 import me.dio.credit.application.system.repository.CustomerRepository
 import me.dio.credit.application.system.service.ICustomerService
 import org.springframework.stereotype.Service
@@ -16,11 +17,16 @@ class CustomerService(
     override fun save(customer: Customer): Customer =
         this.customerRepository.save(customer)
 
-    override fun findById(id: Long): Customer =
-        this.customerRepository.findById(id).orElseThrow{
-            throw RuntimeException("Id $id not found")
+    override fun findById(id: Long): Customer = this.customerRepository.findById(id)
+        .orElseThrow{ throw BusinessException("Id $id not found")
         }
 
-    override fun delete(id: Long) = this.customerRepository.deleteById(id)
+//    deleta customer pela entity e não pelo id
+    override fun delete(id: Long) {
+//        passa a entidade para a variável customer
+        val customer: Customer = this.findById(id)
+//    passamos como argumento para exclui a entidade e não o id
+    this.customerRepository.delete(customer)
+    }
 
 }
